@@ -1,0 +1,8 @@
+---
+# tasks file for test
+
+- name: copy file
+  copy:
+          src: vartest.txt
+          dest: "{{ dir }}"
+         
