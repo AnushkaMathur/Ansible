@@ -1,0 +1,31 @@
+- hosts: tag_Role_primary
+  user: ec2-user
+  become: yes
+  vars:
+   user: anushka
+   password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          62333838326465643330636235666333353338663265646432396438636663616236353663633162
+          6664383963666531646661393139303938323830313861320a643034643837393836363434646534
+          65313066633830313234353161316637623330303163626163623865626635656431653837653832
+          3434373336313061320a323662636436346234393132386636663436303262326431326562396566
+          3631
+
+  tasks:
+  - name "mysql setup"
+    yum: 
+        name: http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
+        state: present
+
+    yum:
+        name=* state=latest
+
+    yum:
+        name=mysql-server state=present
+
+  
+    mysql_user:
+        name: "{{user}}"
+        password: "{{password}}"
+        priv: '*.*:ALL'
+        state: present
